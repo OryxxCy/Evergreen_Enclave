@@ -1,0 +1,29 @@
+<% content_for(:html_title) {@type.name}%>
+<section class="section">
+  <h1 class="title is-1">
+    <%= @type.name%> Products
+  </h1>
+  <div class="box">
+    <ul class="columns is-multiline">
+      <% if @type.plants.present? %>
+        <% @type.plants.each do |plant| %>
+        <li class="column is-one-quarter">
+          <ul>
+              <li>
+                <%= image_tag(plant.image, alt: "#{plant.name} Image", class: 'image is-128x128') %>
+                <%= link_to plant.name, plant %>
+              </li>
+              <li>
+                <%= plant.price%>
+              </li>
+          </ul>
+        </li>
+        <% end %>
+      <% else %>
+        <li class="column">
+          <p>None</p>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</section>

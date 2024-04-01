@@ -1,2 +1,16 @@
-<h1>Plants#index</h1>
-<p>Find me in app/views/plants/index.html.erb</p>
+<section class="section">
+  <h1 class="title has-text-centered">Plants</h1>
+  <ul class="columns is-multiline">
+    <% @plants.each do |plant| %>
+      <li class="column is-one-third">
+        <div class="box">
+          <% if plant.image.present?%>
+            <%= image_tag(plant.image, alt: "#{plant.name} Image", class: 'image is-128x128') %>
+          <%end%>
+          <p class="title is-5"><%= link_to plant.name, plant %></p>
+          <p class="content">$<%= plant.price %></p>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</section>

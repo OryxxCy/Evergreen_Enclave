@@ -1,14 +1,14 @@
 require 'json'
 require 'open-uri'
 
-10.times do |i|
-  url = "https://perenual.com/api/species/details/#{i+1}?key=sk-AC7C660314a6c9c524873"
+20.times do |i|
+  url = "https://perenual.com/api/species/details/#{i+500}?key=sk-AC7C660314a6c9c524873"
   response = URI.open(url).read
   data = JSON.parse(response)
 
   common_name = data['common_name']
   other_names = data['other_name'].join(', ') unless data['other_name'].empty?
-  type = data['type']
+  type = data['type'].capitalize()
   description = data['description']
   price = Faker::Number.decimal(l_digits: 2)
 
@@ -25,6 +25,7 @@ require 'open-uri'
   downloaded_image = URI.open(data['default_image']['regular_url'])
   plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
   sleep(1)
+  puts "i"
   puts "Saved!"
 end
 

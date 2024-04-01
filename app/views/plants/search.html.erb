@@ -1,0 +1,28 @@
+<% if @plants.count != 0 %>
+  <p>
+    <%= pluralize(@plants.count, "Plant")%> found when searching for "<%= params[:keywords]%>"
+    <% if params[:type].present?%>
+       and Type "<%= params[:type]%>"
+    <%end%>
+  </p>
+  <ul>
+    <% @plants.each do |plant|%>
+        <li class="column is-one-third">
+          <div class="box">
+            <% if plant.image.present?%>
+              <%= image_tag(plant.image, alt: "#{plant.name} Image", class: 'image is-128x128') %>
+            <%end%>
+            <p class="title is-5"><%= link_to plant.name, plant %></p>
+            <p class="content">$<%= plant.price %></p>
+          </div>
+        </li>
+    <% end%>
+  </ul>
+<% else %>
+  <p>
+    No Plants was found when searching for "<%= params[:keywords]%>"
+    <% if params[:type].present?%>
+       and Type "<%= params[:type]%>"
+    <%end%>
+  </p>
+<% end %>

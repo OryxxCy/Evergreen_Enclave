@@ -1,2 +1,20 @@
-<h1>Plants#show</h1>
-<p>Find me in app/views/plants/show.html.erb</p>
+<% content_for(:html_title) { @plant.name } %>
+<section class="section">
+  <div class="box">
+    <h1 class="title">
+      <%= image_tag(@plant.image, alt: "#{@plant.name} Image", class: 'image is-128x128') %>
+      <%= @plant.name %>
+    </h1>
+    <p class="subtitle">
+      <%= @plant.description %>
+    </p>
+  </div>
+  <div class="box">
+    <h2 class="title">Stats</h2>
+    <ul>
+      <li><strong>Price:</strong>$<%= @plant.price %></li>
+      <li><strong>Other Names:</strong> <%= @plant.other_name %></li>
+      <li><strong>Type:</strong> <%= @plant.plant_type.name %></li>
+    </ul>
+  </div>
+</section>
