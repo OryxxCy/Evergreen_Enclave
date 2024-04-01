@@ -1,25 +1,6 @@
 require 'json'
 require 'open-uri'
 
-# 4.times do |i|
-#   url = "https://perenual.com/api/species-list?key=sk-AC7C660314a6c9c524873&page=#{i}"
-#   response = URI.open(url).read
-#   data = JSON.parse(response)
-
-#   data['data'].each do |plant|
-#     common_name = plant['common_name']
-#     other_names = plant['other_name'][1] unless plant['other_name'].empty?
-
-#     puts "Common Name: #{common_name}"
-#     puts "Other Names: #{other_names || 'None'}"
-#     puts "--------"
-#   end
-# end
-
-# url = "https://perenual.com/api/species-list?key=sk-AC7C660314a6c9c524873&page=1"
-# response = URI.open(url).read
-# data = JSON.parse(response)
-
 10.times do |i|
   url = "https://perenual.com/api/species/details/#{i+1}?key=sk-AC7C660314a6c9c524873"
   response = URI.open(url).read
