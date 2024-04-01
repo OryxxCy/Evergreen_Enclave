@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_01_035637) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_01_190748) do
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -42,7 +42,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_01_035637) do
 
   create_table "plant_types", force: :cascade do |t|
     t.string "name"
-    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -54,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_01_035637) do
     t.integer "plant_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "common_name"
     t.index ["plant_type_id"], name: "index_plants_on_plant_type_id"
   end
 
