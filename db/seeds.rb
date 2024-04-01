@@ -16,27 +16,35 @@ require 'open-uri'
 #   end
 # end
 
-url = "https://perenual.com/api/species-list?key=sk-AC7C660314a6c9c524873&page=1"
-response = URI.open(url).read
-data = JSON.parse(response)
+# url = "https://perenual.com/api/species-list?key=sk-AC7C660314a6c9c524873&page=1"
+# response = URI.open(url).read
+# data = JSON.parse(response)
 
-data['data'].first(2).each do |plant|
-  common_name = plant['common_name']
-  other_names = plant['other_name'].join(', ') unless plant['other_name'].empty?
-
-  url = "https://perenual.com/api/species/details/#{plant['id']}?key=sk-AC7C660314a6c9c524873"
+10.times do |i|
+  url = "https://perenual.com/api/species/details/#{i+1}?key=sk-AC7C660314a6c9c524873"
   response = URI.open(url).read
   data = JSON.parse(response)
+
+  common_name = data['common_name']
+  other_names = data['other_name'].join(', ') unless data['other_name'].empty?
   type = data['type']
   description = data['description']
   price = Faker::Number.decimal(l_digits: 2)
 
-  puts "Common Name: #{common_name}"
-  puts "Other Names: #{other_names || 'None'}"
-  puts "Type: #{type.capitalize}"
-  puts "Description: #{description}"
-  puts "Description: #{price}"
-  puts "--------"
+  plant_type = PlantType.find_or_create_by(name: type)
+
+  plant = Plant.create(
+    name: common_name,
+    other_name: other_names || 'None',
+    plant_type: plant_type,
+    description: description,
+    price: price
+  )
+
+  downloaded_image = URI.open(data['default_image']['regular_url'])
+  plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
+  sleep(1)
+  puts "Saved!"
 end
 
 # tax_rates_data = [
