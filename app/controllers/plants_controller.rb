@@ -1,6 +1,7 @@
 class PlantsController < ApplicationController
   def index
-    @plants = Plant.all
+    # @plants = Plant.all
+    @plants = Plant.page(params[:page]).per(12)
   end
 
   def show

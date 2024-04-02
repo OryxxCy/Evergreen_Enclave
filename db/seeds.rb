@@ -1,12 +1,12 @@
 require 'json'
 require 'open-uri'
 
-20.times do |i|
-  url = "https://perenual.com/api/species/details/#{i+500}?key=sk-AC7C660314a6c9c524873"
+10.times do |i|
+  url = "https://perenual.com/api/species/details/#{i+650}?key=sk-uEf7660b4c1a54baf4961"
   response = URI.open(url).read
   data = JSON.parse(response)
 
-  common_name = data['common_name']
+  common_name = data['common_name'].capitalize()
   other_names = data['other_name'].join(', ') unless data['other_name'].empty?
   type = data['type'].capitalize()
   description = data['description']
@@ -22,12 +22,16 @@ require 'open-uri'
     price: price
   )
 
-  downloaded_image = URI.open(data['default_image']['regular_url'])
-  plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
+  if data['default_image'].present?
+    downloaded_image = URI.open(data['default_image']['regular_url'])
+    plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
+  end
   sleep(1)
-  puts "i"
+  puts i
   puts "Saved!"
+  puts "Total Plants Count: #{Plant.count}"
 end
+
 
 # tax_rates_data = [
 #   { province: "Alberta", pst: nil, gst: 5, hst: nil },

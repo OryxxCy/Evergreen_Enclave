@@ -2,7 +2,9 @@
 <section class="section">
   <div class="box">
     <h1 class="title">
-      <%= image_tag(@plant.image, alt: "#{@plant.name} Image", class: 'image is-128x128') %>
+      <% if @plant.image.present?%>
+        <%= image_tag(@plant.image, alt: "#{@plant.name} Image", class: 'image is-128x128') %>
+      <%end%>
       <%= @plant.name %>
     </h1>
     <p class="subtitle">
@@ -10,11 +12,11 @@
     </p>
   </div>
   <div class="box">
-    <h2 class="title">Stats</h2>
+    <h2 class="title">Information</h2>
     <ul>
       <li><strong>Price:</strong>$<%= @plant.price %></li>
       <li><strong>Other Names:</strong> <%= @plant.other_name %></li>
-      <li><strong>Type:</strong> <%= @plant.plant_type.name %></li>
+      <li><strong>Type:</strong> <%=  link_to @plant.plant_type.name, @plant.plant_type %></li>
     </ul>
   </div>
 </section>
