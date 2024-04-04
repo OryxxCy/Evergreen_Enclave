@@ -1,28 +1,35 @@
-<% if @plants.count != 0 %>
-  <p>
-    <%= pluralize(@plants.count, "Plant")%> found when searching for "<%= params[:keywords]%>"
-    <% if params[:type].present?%>
-       and Type "<%= params[:type]%>"
-    <%end%>
-  </p>
-  <ul>
-    <% @plants.each do |plant|%>
-        <li class="column is-one-third">
-          <div class="box">
-            <% if plant.image.present?%>
-              <%= image_tag(plant.image, alt: "#{plant.name} Image", class: 'image is-128x128') %>
-            <%end%>
-            <p class="title is-5"><%= link_to plant.name, plant %></p>
-            <p class="content">$<%= plant.price %></p>
-          </div>
-        </li>
+<section class="section">
+  <% if @plants.count != 0 %>
+    <h1 class="title has-text-centered">
+      <%= pluralize(@plants_count, "Plant")%> found when searching for "<%= params[:keywords]%>"
+      <% if params[:type].present?%>
+        and Type "<%= params[:type]%>"
+      <%end%>
+    </h1>
+    <ul class="columns is-multiline">
+      <% @plants.each do |plant|%>
+          <li class="column is-one-third">
+            <div class="box has-text-centered">
+              <% if plant.image.present?%>
+                <figure class="is-justify-content-center">
+                  <%= image_tag(plant.image, alt: "#{plant.name} Image") %>
+                </figure>
+              <%end%>
+              <p class="title is-5"><%= link_to plant.name, plant %></p>
+              <p class="content">CA$<%= plant.price %></p>
+            </div>
+          </li>
+      <% end%>
+    </ul>
+    <% if @plants_count >= 12%>
+      <%= paginate @plants%>
     <% end%>
-  </ul>
-<% else %>
-  <p>
-    No Plants was found when searching for "<%= params[:keywords]%>"
-    <% if params[:type].present?%>
-       and Type "<%= params[:type]%>"
-    <%end%>
-  </p>
-<% end %>
+  <% else %>
+    <h1 class="title has-text-centered">
+      No Plants was found when searching for "<%= params[:keywords]%>"
+      <% if params[:type].present?%>
+        and Type "<%= params[:type]%>"
+      <%end%>
+    </h1>
+  <% end %>
+</section>

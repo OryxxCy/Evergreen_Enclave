@@ -3,25 +3,28 @@
   <h1 class="title is-1">
     <%= @type.name%> Products
   </h1>
-  <div class="box">
-    <ul class="columns is-multiline">
-      <% if @type.plants.present? %>
-        <% @type.plants.each do |plant| %>
-          <li class="column is-one-third">
-            <div class="box">
-              <% if plant.image.present?%>
-                <%= image_tag(plant.image, alt: "#{plant.name} Image", class: 'image is-128x128') %>
-              <%end%>
-              <p class="title is-5"><%= link_to plant.name, plant %></p>
-              <p class="content">$<%= plant.price %></p>
-            </div>
-          </li>
-        <% end %>
-      <% else %>
-        <li class="column">
-          <p>None</p>
+  <ul class="columns is-multiline">
+    <% if @type.plants.present? %>
+      <% @plants.each do |plant| %>
+        <li class="column is-one-third">
+          <div class="box has-text-centered">
+            <% if plant.image.present?%>
+              <figure class="is-justify-content-center">
+                <%= image_tag(plant.image, alt: "#{plant.name} Image") %>
+              </figure>
+            <%end%>
+            <p class="title is-5"><%= link_to plant.name, plant %></p>
+            <p class="content">CA$<%= plant.price %></p>
+          </div>
         </li>
       <% end %>
-    </ul>
-  </div>
+    <% else %>
+      <li class="column">
+        <p>None</p>
+      </li>
+    <% end %>
+  </ul>
+  <% if @plants_count >= 12%>
+    <%= paginate @plants%>
+  <% end%>
 </section>
