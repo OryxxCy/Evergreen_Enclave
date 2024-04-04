@@ -5,8 +5,28 @@ Plant.destroy_all
 PlantType.destroy_all
 TaxRate.destroy_all
 
+tax_rates_data = [
+  { province: "Alberta", pst: nil, gst: 5, hst: nil },
+  { province: "British Columbia", pst: 7, gst: 5, hst: nil },
+  { province: "Manitoba", pst: 7, gst: 5, hst: nil },
+  { province: "New Brunswick", pst: nil, gst: nil, hst: 15 },
+  { province: "Newfoundland and Labrador", pst: nil, gst: nil, hst: 15 },
+  { province: "Northwest Territories", pst: nil, gst: 5, hst: nil },
+  { province: "Nova Scotia", pst: nil, gst: nil, hst: 15 },
+  { province: "Nunavut", pst: nil, gst: 5, hst: nil },
+  { province: "Ontario", pst: nil, gst: nil, hst: 13 },
+  { province: "Prince Edward Island", pst: nil, gst: nil, hst: 15 },
+  { province: "Quebec", pst: 9.975, gst: 5, hst: nil },
+  { province: "Saskatchewan", pst: 6, gst: 5, hst: nil },
+  { province: "Yukon", pst: nil, gst: 5, hst: nil }
+]
+
+tax_rates_data.each do |tax_rate_data|
+  TaxRate.create(tax_rate_data)
+end
+
 100.times do |i|
-  url = "https://perenual.com/api/species/details/#{i+9}?key=sk-uEf7660b4c1a54baf4961"
+  url = "https://perenual.com/api/species/details/#{(i * 9) + 155}?key=sk-IgYw660f03b1b54ee4873"
   response = URI.open(url).read
   data = JSON.parse(response)
 
@@ -27,31 +47,13 @@ TaxRate.destroy_all
   )
 
   if data['default_image'].present?
-    downloaded_image = URI.open(data['default_image']['regular_url'])
-    plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
+    if data['default_image']['regular_url'].present?
+      downloaded_image = URI.open(data['default_image']['regular_url'])
+      plant.image.attach(io:downloaded_image, filename: "#{common_name}.jpg")
+    end
   end
-  sleep(1)
+  sleep(3)
   puts i
   puts "Saved!"
   puts "Total Plants Count: #{Plant.count}"
-end
-
-tax_rates_data = [
-  { province: "Alberta", pst: nil, gst: 5, hst: nil },
-  { province: "British Columbia", pst: 7, gst: 5, hst: nil },
-  { province: "Manitoba", pst: 7, gst: 5, hst: nil },
-  { province: "New Brunswick", pst: nil, gst: nil, hst: 15 },
-  { province: "Newfoundland and Labrador", pst: nil, gst: nil, hst: 15 },
-  { province: "Northwest Territories", pst: nil, gst: 5, hst: nil },
-  { province: "Nova Scotia", pst: nil, gst: nil, hst: 15 },
-  { province: "Nunavut", pst: nil, gst: 5, hst: nil },
-  { province: "Ontario", pst: nil, gst: nil, hst: 13 },
-  { province: "Prince Edward Island", pst: nil, gst: nil, hst: 15 },
-  { province: "Quebec", pst: 9.975, gst: 5, hst: nil },
-  { province: "Saskatchewan", pst: 6, gst: 5, hst: nil },
-  { province: "Yukon", pst: nil, gst: 5, hst: nil }
-]
-
-tax_rates_data.each do |tax_rate_data|
-  TaxRate.create(tax_rate_data)
 end
