@@ -1,0 +1,44 @@
+<header>
+  <nav class="navbar" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href ="<%= root_path %>">
+        <%= image_tag("leaf.png", alt: "An icon of a four leaf Plant.") %>
+        Evergreen Enclave
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href ="<%= plants_path %>">
+          Plants
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Plant Type
+          </a>
+          <div class="navbar-dropdown">
+            <% PlantType.all.each do |plant_type| %>
+              <ul>
+                <li>
+                  <%= link_to plant_type.name, plant_type %>
+                </li>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="navbar-end">
+        <%= form_with(url: search_plants_path, method: :get, local: true) do %>
+          <div class="navbar-item">
+            <%= text_field_tag(:keywords, nil, class: "input is-primary", placeholder: "Search for a plant")%>
+            <div class="control">
+              <div class="select">
+                <%= select_tag(:type, options_for_select(PlantType.all.map { |plant_type| [plant_type.name] }), { include_blank: 'All' }) %>
+              </div>
+            </div>
+            <%= submit_tag("Search", class: "button is-primary")%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+</header>

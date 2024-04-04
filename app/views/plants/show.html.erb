@@ -1,2 +1,24 @@
-<h1>Plants#show</h1>
-<p>Find me in app/views/plants/show.html.erb</p>
+<% content_for(:html_title) { @plant.name } %>
+<section class="section">
+  <div class="box">
+    <h1 class="title">
+      <% if @plant.image.present?%>
+        <figure class="image is-128x128">
+          <%= image_tag(@plant.image, alt: "#{@plant.name} Image") %>
+        </figure>
+      <%end%>
+      <%= @plant.name %>
+    </h1>
+    <p class="subtitle">
+      <%= @plant.description %>
+    </p>
+  </div>
+  <div class="box">
+    <h2 class="title">Information</h2>
+    <ul>
+      <li><strong>Price:</strong>CA$<%= @plant.price %></li>
+      <li><strong>Other Names:</strong> <%= @plant.other_name %></li>
+      <li><strong>Type:</strong> <%=  link_to @plant.plant_type.name, @plant.plant_type %></li>
+    </ul>
+  </div>
+</section>

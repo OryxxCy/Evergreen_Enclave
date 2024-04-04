@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  get 'plants/index'
-  get 'plants/show'
+  root to: "plants#index"
+  resources :plants, only: [:index, :show] do
+    collection do
+      get "search"
+    end
+  end
+  resources :plants, only: [:index, :show]
+  resources :plant_types, only: [:show]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
