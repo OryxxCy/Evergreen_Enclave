@@ -4,6 +4,7 @@ require 'open-uri'
 Plant.destroy_all
 PlantType.destroy_all
 TaxRate.destroy_all
+AdminUser.destroy_all
 
 tax_rates_data = [
   { province: "Alberta", pst: nil, gst: 5, hst: nil },
@@ -57,3 +58,4 @@ end
   puts "Saved!"
   puts "Total Plants Count: #{Plant.count}"
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
