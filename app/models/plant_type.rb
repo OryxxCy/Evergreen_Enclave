@@ -2,6 +2,7 @@ class PlantType < ApplicationRecord
   has_many :plants
 
   validates :name, presence: true
+  validates :name, uniqueness: true
 
   def self.ransackable_associations(auth_object = nil)
     ["plants"]
