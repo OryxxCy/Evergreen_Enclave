@@ -13,11 +13,12 @@ class CartController < ApplicationController
   end
 
   def destroy
-    id = params[:id].to_i
+    id = params[:id]
     session[:shopping_cart].delete(id)
     plant = Plant.find(id)
 
     flash[:notice] = "#{plant.name} removed from cart."
+    redirect_to cart_index_path
   end
 
   def index

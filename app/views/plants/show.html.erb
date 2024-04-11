@@ -25,10 +25,10 @@
         <%= label_tag :quantity, "Quantity", class: "label" %>
         <div class="field-body">
           <div class="field is-narrow">
-              <%= number_field_tag(:quantity,nil, class: "input is-primary" )%>
+              <%= number_field_tag(:quantity,1, min: 1 , class: "input is-primary" )%>
           </div>
         </div>
-        <%= button_tag 'Add to cart', class: "button is-primary" %>
+        <%= button_tag 'Add to cart',class: "button is-primary mt-2" %>
       <%end%>
   </div>
 </section>

@@ -1,5 +1,22 @@
-<% @cart_items_with_quantity.each do |product, quantity| %>
-  <div>
-    <%= product.name %> (Quantity: <%= quantity %>)
+<% @cart_items_with_quantity.each do |plant, quantity| %>
+  <div class="box">
+    <%= image_tag(plant.image, alt: "#{plant.name} Image", class: "image is-128x128") %>
+    <h1 class="title is-4">
+      <%= link_to plant.name, plant %>
+      CA$<%= plant.price %>
+    </h1>
+    <%=form_with url: cart_index_path, method: :post do |form|%>
+      <%= hidden_field_tag(:id, plant.id)%>
+      <%= label_tag :quantity, "Quantity", class: "label" %>
+      <div class="field-body">
+        <div class="field is-narrow">
+            <%= number_field_tag(:quantity, quantity, min: 1 , class: "input is-primary" )%>
+        </div>
+      </div>
+      <%= button_tag 'Update Quantity',class: "button is-primary" %>
+    <%end%>
+    <%= button_to cart_path(plant), method: :delete, class: "button is-primary" do %>
+      Remove from cart.
+    <%end%>
   </div>
 <% end %>
