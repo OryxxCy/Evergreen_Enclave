@@ -25,6 +25,9 @@
             <% end %>
           </div>
         </div>
+        <a class="navbar-item" href ="<%= cart_index_path %>">
+          Cart
+        </a>
       </div>
       <div class="navbar-end">
         <%= form_with(url: search_plants_path, method: :get, local: true) do %>

@@ -1,0 +1,5 @@
+<% @cart_items_with_quantity.each do |product, quantity| %>
+  <div>
+    <%= product.name %> (Quantity: <%= quantity %>)
+  </div>
+<% end %>
