@@ -30,4 +30,50 @@ class CartController < ApplicationController
       @cart_items_with_quantity[product] = quantity
     end
   end
+
+  def invoice
+    email = params[:email] unless params[:email].empty?
+    address = params[:address] unless params[:address].empty?
+    tax_rate = params[:province]
+
+    customer = Customer.create(
+      first_name: params[:first_name],
+      last_name: params[:last_name],
+      email: email || "Not provided",
+      address: address || "Not provided",
+      tax_rate_id: tax_rate
+    )
+
+    order = customer.Order.new
+
+    @total_price = 0
+    @gst_total = 0
+    @pst_total = 0
+    @hst_total = 0
+    @cart_items_with_quantity.each do |product, quantity|
+      product_multiply_quantity = product.price * quantity
+      product_gst = (customer.TaxRate.gst / 100) * product_multiply_quantity
+      product_pst = (customer.TaxRate.pst / 100) * product_multiply_quantity
+      product_hst = (customer.TaxRate.hst / 100) * product_multiply_quantity
+      @gst_total = @gst_total + product_gst
+      @pst_total = @pst_total + product_pst
+      @hst_total = @hst_total + product_hst
+      @total_price = @total_price + product_multiply_quantity
+
+      OrderPlant.create(
+        quantity: quantity,
+        ordered_price: product.price,
+        order_id: order.id,
+        plant_id: product.id
+      )
+    end
+    @overall_total = @total_price + @gst_total + @pst_total + @hst_total
+
+    order.total = @total_price
+    order.gst_tax = @gst_total
+    order.pst_tax = @pst_total
+    order.hst_tax = @hst_total
+    order.total_price = @overall_total
+    order.save
+  end
 end

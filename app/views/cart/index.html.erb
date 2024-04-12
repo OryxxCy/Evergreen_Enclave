@@ -1,22 +1,75 @@
 <% @cart_items_with_quantity.each do |plant, quantity| %>
   <div class="box">
-    <%= image_tag(plant.image, alt: "#{plant.name} Image", class: "image is-128x128") %>
-    <h1 class="title is-4">
-      <%= link_to plant.name, plant %>
-      CA$<%= plant.price %>
-    </h1>
-    <%=form_with url: cart_index_path, method: :post do |form|%>
-      <%= hidden_field_tag(:id, plant.id)%>
-      <%= label_tag :quantity, "Quantity", class: "label" %>
-      <div class="field-body">
-        <div class="field is-narrow">
-            <%= number_field_tag(:quantity, quantity, min: 1 , class: "input is-primary" )%>
-        </div>
-      </div>
-      <%= button_tag 'Update Quantity',class: "button is-primary" %>
-    <%end%>
-    <%= button_to cart_path(plant), method: :delete, class: "button is-primary" do %>
-      Remove from cart.
-    <%end%>
+    <ul class="columns is-multiline">
+      <li class="column is-one-fifth">
+        <%= image_tag(plant.image, alt: "#{plant.name} Image") %>
+      </li>
+      <li>
+        <h1 class="title is-4">
+          <%= link_to plant.name, plant %>
+          CA$<%= plant.price %>
+        </h1>
+        <%=form_with url: cart_index_path, method: :post do%>
+          <%= hidden_field_tag(:id, plant.id)%>
+          <%= label_tag :quantity, "Quantity", class: "label" %>
+          <div class="field-body has-addon">
+            <div class="control">
+              <div class="field is-narrow">
+                  <%= number_field_tag(:quantity, quantity, min: 1 , class: "input is-primary mb-1" )%>
+              </div>
+            </div>
+            <div class="control">
+              <%= button_tag 'Update Quantity',class: "button is-primary mb-1" %>
+            </div>
+          </div>
+        <%end%>
+        <%= button_to cart_path(plant), method: :delete, class: "button is-primary" do %>
+          Remove from cart.
+        <%end%>
+      </li>
+    </ul>
+  </div>
+<% end %>
+<h1 class="title is-4"> Form for Invoice</h1>
+<%= form_with url: invoice_cart_index_path, method: :post do |form| %>
+  <div class="field">
+    <%= form.label :first_name, class: "label" %>
+    <div class="control">
+      <%= form.text_field :first_name, class: "input", placeholder: "First Name" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_name, class: "label" %>
+    <div class="control">
+      <%= form.text_field :last_name, class: "input", placeholder: "Last Name" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :address, class: "label" %>
+    <div class="control">
+      <%= form.text_field :address, class: "input", placeholder: "Address" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :email, class: "label" %>
+    <div class="control">
+      <%= form.email_field :email, class: "input", placeholder: "Email Address" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :province, class: "label" %>
+    <div class="control">
+      <%= form.select :province, options_for_select(TaxRate.all.map { |rate| [rate.province] }) %>
+    </div>
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      <%= form.submit "Submit", class: "button is-primary" %>
+    </div>
   </div>
 <% end %>

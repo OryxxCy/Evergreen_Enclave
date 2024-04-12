@@ -2,12 +2,12 @@
 
 one:
   quantity: 1
-  price: 9.99
+  ordered_price: 9.99
   order: one
   plant: one
 
 two:
   quantity: 1
-  price: 9.99
+  ordered_price: 9.99
   order: two
   plant: two
