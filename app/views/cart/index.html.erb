@@ -16,6 +16,7 @@
         </h1>
         <%=form_with(url: cart_index_path, method: :post, local: true )do%>
           <%= hidden_field_tag(:id, plant.id)%>
+          <%= hidden_field_tag(:source, 'index')%>
           <%= label_tag :quantity, "Quantity", class: "label" %>
           <p>In cart: <%= quantity%></p>
           <div class="field-body has-addon">

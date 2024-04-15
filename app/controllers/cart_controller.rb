@@ -2,15 +2,22 @@ class CartController < ApplicationController
   def create
     product_id = params[:id]
     quantity = params[:quantity].to_i
+    plant = Plant.find_by(id: product_id)
     if session[:shopping_cart].key?(product_id)
-      session[:shopping_cart][product_id] = quantity
-      redirect_to cart_index_path
+      if params[:source].present?
+        session[:shopping_cart][product_id] = quantity
+        redirect_to cart_index_path
+      else
+        session[:shopping_cart][product_id] += quantity
+        # flash[:notice] = "#{quantity} #{plant.name} added to cart."
+        redirect_to plant_path(product_id)
+      end
     else
       session[:shopping_cart][product_id] = quantity
     end
 
     plant = Plant.find(product_id)
-    # flash[:notice] = "#{quantity} #{plant.name} added to cart."
+    flash[:notice] = "#{quantity} #{plant.name} added to cart."
   end
 
   def destroy
@@ -18,7 +25,7 @@ class CartController < ApplicationController
     session[:shopping_cart].delete(id)
     plant = Plant.find(id)
 
-    # flash[:notice] = "#{plant.name} removed from cart."
+    flash[:notice] = "#{plant.name} removed from cart."
     redirect_to cart_index_path
   end
 
@@ -64,6 +71,8 @@ class CartController < ApplicationController
       @hst_total = @hst_total + product_hst
       @total_price = @total_price + product_multiply_quantity
 
+      product.update(stock: product.stock - quantity)
+
       order_plant = order.order_plants.build(
         quantity: quantity,
         ordered_price: product.price,
@@ -78,5 +87,8 @@ class CartController < ApplicationController
     order.hst_tax = @hst_total
     order.total_price = @overall_total
     order.save
+
+    session[:shopping_cart] = {}
+    redirect_to cart_index_path
   end
 end

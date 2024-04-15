@@ -36,6 +36,7 @@ end
   type = data['type'].capitalize()
   description = data['description']
   price = Faker::Number.decimal(l_digits: 2)
+  stock = Faker::Number.between(from: 1, to: 50)
 
   plant_type = PlantType.find_or_create_by(name: type)
 
@@ -44,7 +45,8 @@ end
     other_name: other_names || 'None',
     plant_type: plant_type,
     description: description,
-    price: price
+    price: price,
+    stock: stock
   )
 
   if data['default_image'].present?
