@@ -10,10 +10,9 @@ Rails.application.routes.draw do
   resources :plants, only: [:index, :show]
   resources :plant_types, only: [:show]
   resources :cart, only: [:index, :create, :destroy] do
-    collection do
-      get "invoice"
-    end
+    post 'invoice', on: :collection
   end
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

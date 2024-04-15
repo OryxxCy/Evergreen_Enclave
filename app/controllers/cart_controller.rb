@@ -3,13 +3,14 @@ class CartController < ApplicationController
     product_id = params[:id]
     quantity = params[:quantity].to_i
     if session[:shopping_cart].key?(product_id)
-      session[:shopping_cart][product_id] += quantity
+      session[:shopping_cart][product_id] = quantity
+      redirect_to cart_index_path
     else
       session[:shopping_cart][product_id] = quantity
     end
 
     plant = Plant.find(product_id)
-    flash[:notice] = "#{quantity} #{plant.name} added to cart."
+    # flash[:notice] = "#{quantity} #{plant.name} added to cart."
   end
 
   def destroy
@@ -17,7 +18,7 @@ class CartController < ApplicationController
     session[:shopping_cart].delete(id)
     plant = Plant.find(id)
 
-    flash[:notice] = "#{plant.name} removed from cart."
+    # flash[:notice] = "#{plant.name} removed from cart."
     redirect_to cart_index_path
   end
 
@@ -34,7 +35,7 @@ class CartController < ApplicationController
   def invoice
     email = params[:email] unless params[:email].empty?
     address = params[:address] unless params[:address].empty?
-    tax_rate = params[:province]
+    tax_rate = params[:province].to_i
 
     customer = Customer.create(
       first_name: params[:first_name],
@@ -44,26 +45,28 @@ class CartController < ApplicationController
       tax_rate_id: tax_rate
     )
 
-    order = customer.Order.new
+    @cart_items_with_quantity = session[:shopping_cart]
+
+    order = customer.orders.new
 
     @total_price = 0
     @gst_total = 0
     @pst_total = 0
     @hst_total = 0
-    @cart_items_with_quantity.each do |product, quantity|
+    @cart_items_with_quantity.each do |product_id, quantity|
+      product = Plant.find_by(id: product_id.to_i)
       product_multiply_quantity = product.price * quantity
-      product_gst = (customer.TaxRate.gst / 100) * product_multiply_quantity
-      product_pst = (customer.TaxRate.pst / 100) * product_multiply_quantity
-      product_hst = (customer.TaxRate.hst / 100) * product_multiply_quantity
+      product_gst = (customer.tax_rate.gst / 100) * product_multiply_quantity
+      product_pst = (customer.tax_rate.pst / 100) * product_multiply_quantity
+      product_hst = (customer.tax_rate.hst / 100) * product_multiply_quantity
       @gst_total = @gst_total + product_gst
       @pst_total = @pst_total + product_pst
       @hst_total = @hst_total + product_hst
       @total_price = @total_price + product_multiply_quantity
 
-      OrderPlant.create(
+      order_plant = order.order_plants.build(
         quantity: quantity,
         ordered_price: product.price,
-        order_id: order.id,
         plant_id: product.id
       )
     end

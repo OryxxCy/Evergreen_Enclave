@@ -1,3 +1,8 @@
+<%if @cart_items_with_quantity.empty?%>
+  <h1 class="title is-4">
+    Theres no Item in the cart.
+  </h1>
+<%else%>
 <% @cart_items_with_quantity.each do |plant, quantity| %>
   <div class="box">
     <ul class="columns is-multiline">
@@ -9,9 +14,10 @@
           <%= link_to plant.name, plant %>
           CA$<%= plant.price %>
         </h1>
-        <%=form_with url: cart_index_path, method: :post do%>
+        <%=form_with(url: cart_index_path, method: :post, local: true )do%>
           <%= hidden_field_tag(:id, plant.id)%>
           <%= label_tag :quantity, "Quantity", class: "label" %>
+          <p>In cart: <%= quantity%></p>
           <div class="field-body has-addon">
             <div class="control">
               <div class="field is-narrow">
@@ -23,7 +29,7 @@
             </div>
           </div>
         <%end%>
-        <%= button_to cart_path(plant), method: :delete, class: "button is-primary" do %>
+        <%= button_to cart_path(plant), method: :delete, class: "button is-danger is-outlined" do %>
           Remove from cart.
         <%end%>
       </li>
@@ -31,7 +37,7 @@
   </div>
 <% end %>
 <h1 class="title is-4"> Form for Invoice</h1>
-<%= form_with url: invoice_cart_index_path, method: :post do |form| %>
+<%= form_with(url: invoice_cart_index_path, method: :post, local: true  )do |form| %>
   <div class="field">
     <%= form.label :first_name, class: "label" %>
     <div class="control">
@@ -63,7 +69,7 @@
   <div class="field">
     <%= form.label :province, class: "label" %>
     <div class="control">
-      <%= form.select :province, options_for_select(TaxRate.all.map { |rate| [rate.province] }) %>
+      <%= form.select :province, options_for_select(TaxRate.all.map { |rate| [rate.province, rate.id] }) %>
     </div>
   </div>
 
@@ -73,3 +79,4 @@
     </div>
   </div>
 <% end %>
+<%end%>
