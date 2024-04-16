@@ -79,13 +79,10 @@ class CartController < ApplicationController
         plant_id: product.id
       )
     end
-    @overall_total = @total_price + @gst_total + @pst_total + @hst_total
-
     order.total = @total_price
     order.gst_tax = @gst_total
     order.pst_tax = @pst_total
     order.hst_tax = @hst_total
-    order.total_price = @overall_total
     order.save
 
     session[:shopping_cart] = {}

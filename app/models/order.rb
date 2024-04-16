@@ -2,8 +2,8 @@ class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_plants
 
-  validates :gst_tax, :hst_tax, :pst_tax, :total, :total_price, presence: true
-  validates :gst_tax, :hst_tax, :pst_tax, :total, :total_price, numericality: { greater_than_or_equal_to: 0}
+  validates :gst_tax, :hst_tax, :pst_tax, :total, presence: true
+  validates :gst_tax, :hst_tax, :pst_tax, :total, numericality: { greater_than_or_equal_to: 0}
 
   def self.ransackable_associations(auth_object = nil)
     ["customer", "order_plants"]

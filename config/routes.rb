@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get "search"
     end
   end
-  resources :plants, only: [:index, :show]
+  resources :orders, only: [:index, :show]
   resources :plant_types, only: [:show]
   resources :cart, only: [:index, :create, :destroy] do
     post 'invoice', on: :collection
