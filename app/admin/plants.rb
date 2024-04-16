@@ -22,6 +22,7 @@ ActiveAdmin.register Plant do
       f.input :name
       f.input :description, as: :text, input_html: { rows: 5 }
       f.input :price
+      f.input :stock
       f.input :plant_type_id, :as => :select, :collection => PlantType.all
       f.input :other_name
       f.input :image, as: :file, hint: f.object.image.present? ? image_tag(f.object.image, size:"200x200") : ""

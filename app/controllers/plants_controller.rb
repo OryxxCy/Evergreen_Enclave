@@ -5,6 +5,12 @@ class PlantsController < ApplicationController
 
   def show
     @plant = Plant.find(params[:id])
+    if session[:shopping_cart][@plant.id.to_s].present?
+      @plant_current_stock = @plant.stock - session[:shopping_cart][@plant.id.to_s].to_i
+      @plant_in_cart = session[:shopping_cart][@plant.id.to_s].to_i
+    else
+      @plant_current_stock = @plant.stock
+    end
   end
 
   def search

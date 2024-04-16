@@ -1,0 +1,32 @@
+<section class="section">
+<div class="box">
+  <% if @orders.empty? %>
+    <div class="container">
+      <h1 class="title has-text-centered has-text-grey">
+        There are no orders that have been made yet.
+      </h1>
+    </div>
+  <% else %>
+    <h1 class="title has-text-centered">Invoices</h1>
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th>Invoice#</th>
+          <th>Ordered Date</th>
+          <th>Total Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @orders.each do |order| %>
+          <% total_cost = order.total + order.gst_tax + order.pst_tax + order.hst_tax %>
+          <tr>
+            <td><%= link_to "Invoice ##{order.id}", order %></td>
+            <td><%= order.created_at.strftime("%B %d, %Y") %></td>
+            <td><%= number_to_currency(total_cost) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</section>
+</div>

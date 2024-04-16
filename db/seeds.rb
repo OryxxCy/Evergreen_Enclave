@@ -1,25 +1,25 @@
 require 'json'
 require 'open-uri'
 
+TaxRate.destroy_all
 Plant.destroy_all
 PlantType.destroy_all
-TaxRate.destroy_all
 AdminUser.destroy_all
 
 tax_rates_data = [
-  { province: "Alberta", pst: nil, gst: 5, hst: nil },
-  { province: "British Columbia", pst: 7, gst: 5, hst: nil },
-  { province: "Manitoba", pst: 7, gst: 5, hst: nil },
-  { province: "New Brunswick", pst: nil, gst: nil, hst: 15 },
-  { province: "Newfoundland and Labrador", pst: nil, gst: nil, hst: 15 },
-  { province: "Northwest Territories", pst: nil, gst: 5, hst: nil },
-  { province: "Nova Scotia", pst: nil, gst: nil, hst: 15 },
-  { province: "Nunavut", pst: nil, gst: 5, hst: nil },
-  { province: "Ontario", pst: nil, gst: nil, hst: 13 },
-  { province: "Prince Edward Island", pst: nil, gst: nil, hst: 15 },
-  { province: "Quebec", pst: 9.975, gst: 5, hst: nil },
-  { province: "Saskatchewan", pst: 6, gst: 5, hst: nil },
-  { province: "Yukon", pst: nil, gst: 5, hst: nil }
+  { province: "Alberta", pst: 0, gst: 5, hst: 0 },
+  { province: "British Columbia", pst: 7, gst: 5, hst: 0 },
+  { province: "Manitoba", pst: 7, gst: 5, hst: 0 },
+  { province: "New Brunswick", pst: 0, gst: 0, hst: 15 },
+  { province: "Newfoundland and Labrador", pst: 0, gst: 0, hst: 15 },
+  { province: "Northwest Territories", pst: 0, gst: 5, hst: 0 },
+  { province: "Nova Scotia", pst: 0, gst: 0, hst: 15 },
+  { province: "Nunavut", pst: 0, gst: 5, hst: 0 },
+  { province: "Ontario", pst: 0, gst: 0, hst: 13 },
+  { province: "Prince Edward Island", pst: 0, gst: 0, hst: 15 },
+  { province: "Quebec", pst: 9.975, gst: 5, hst: 0 },
+  { province: "Saskatchewan", pst: 6, gst: 5, hst: 0 },
+  { province: "Yukon", pst: 0, gst: 5, hst: 0 }
 ]
 
 tax_rates_data.each do |tax_rate_data|
@@ -36,6 +36,7 @@ end
   type = data['type'].capitalize()
   description = data['description']
   price = Faker::Number.decimal(l_digits: 2)
+  stock = Faker::Number.between(from: 1, to: 50)
 
   plant_type = PlantType.find_or_create_by(name: type)
 
@@ -44,7 +45,8 @@ end
     other_name: other_names || 'None',
     plant_type: plant_type,
     description: description,
-    price: price
+    price: price,
+    stock: stock
   )
 
   if data['default_image'].present?

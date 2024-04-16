@@ -1,0 +1,36 @@
+<section class="section">
+  <div class="box">
+    <h1 class="title has-text-centered mb-4">
+      Invoice #<%= @order.id %>
+    </h1>
+    <div class="table-container">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th class="has-text-centered">Quantity</th>
+            <th class="has-text-centered">Unit Price</th>
+            <th class="has-text-centered">Total Product Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @order.order_plants.each do |ordered_plant| %>
+            <% plant = Plant.find_by(id: ordered_plant.plant_id) %>
+            <tr>
+              <td><%= link_to plant.name, plant %></td>
+              <td class="has-text-centered"><%= ordered_plant.quantity %></td>
+              <td class="has-text-centered"><%= number_to_currency(ordered_plant.ordered_price) %></td>
+              <td class="has-text-centered"><%= number_to_currency(ordered_plant.quantity * ordered_plant.ordered_price) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Total: </strong><%= number_to_currency(@order.total) %></p>
+    <p><strong>GST: </strong><%= number_to_currency(@order.gst_tax) %></p>
+    <p><strong>PST: </strong><%= number_to_currency(@order.pst_tax) %></p>
+    <p><strong>HST: </strong><%= number_to_currency(@order.hst_tax) %></p>
+    <% total_cost = @order.total + @order.gst_tax + @order.pst_tax + @order.hst_tax %>
+    <p><strong>Total + Tax: </strong><%= number_to_currency(total_cost) %></p>
+  </div>
+</section>

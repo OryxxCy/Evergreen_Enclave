@@ -7,8 +7,13 @@ Rails.application.routes.draw do
       get "search"
     end
   end
-  resources :plants, only: [:index, :show]
+  resources :orders, only: [:index, :show]
   resources :plant_types, only: [:show]
+  resources :cart, only: [:index, :create, :destroy] do
+    post 'invoice', on: :collection
+  end
+
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

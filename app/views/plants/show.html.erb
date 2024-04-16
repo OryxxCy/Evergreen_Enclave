@@ -16,9 +16,27 @@
   <div class="box">
     <h2 class="title">Information</h2>
     <ul>
-      <li><strong>Price:</strong>CA$<%= @plant.price %></li>
-      <li><strong>Other Names:</strong> <%= @plant.other_name %></li>
-      <li><strong>Type:</strong> <%=  link_to @plant.plant_type.name, @plant.plant_type %></li>
+      <li><strong>Price: </strong>CA$<%= @plant.price %></li>
+      <% if @plant_current_stock == 0 %>
+        <li><strong>Stock: </strong>Out of Stock</li>
+      <% else %>
+        <li><strong>Stock: </strong><%= @plant.stock %></li>
+      <% end %>
+      <li><strong>In cart: </strong><%= @plant_in_cart.nil? ? 0 : @plant_in_cart%></li>
+      <li><strong>Other Names: </strong><%= @plant.other_name %></li>
+      <li><strong>Type: </strong><%= link_to @plant.plant_type.name, @plant.plant_type %></li>
     </ul>
+    <% if @plant_current_stock > 0 %>
+      <%=form_with url: cart_index_path, method: :post do |form|%>
+        <%= hidden_field_tag(:id, @plant.id)%>
+        <%= label_tag :quantity, "Quantity", class: "label" %>
+        <div class="field-body">
+          <div class="field is-narrow">
+              <%= number_field_tag(:quantity,1, min: 1, max: @plant_current_stock.to_i , class: "input is-primary" )%>
+          </div>
+        </div>
+        <%= button_tag 'Add to cart',class: "button is-primary mt-2" %>
+      <%end%>
+    <%end%>
   </div>
 </section>

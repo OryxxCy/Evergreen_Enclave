@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_04_230310) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_15_235119) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -66,8 +66,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_230310) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string "name"
+    t.string "first_name"
+    t.string "last_name"
     t.string "email"
+    t.string "address"
     t.integer "tax_rate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -76,7 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_230310) do
 
   create_table "order_plants", force: :cascade do |t|
     t.integer "quantity"
-    t.decimal "price"
+    t.decimal "ordered_price"
     t.integer "order_id", null: false
     t.integer "plant_id", null: false
     t.datetime "created_at", null: false
@@ -86,11 +88,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_230310) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "total"
-    t.date "date"
+    t.decimal "total"
+    t.decimal "gst_tax"
     t.integer "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "hst_tax"
+    t.decimal "pst_tax"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
@@ -108,6 +112,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_04_230310) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "other_name"
+    t.integer "stock"
     t.index ["plant_type_id"], name: "index_plants_on_plant_type_id"
   end
 
