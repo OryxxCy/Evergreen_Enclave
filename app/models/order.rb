@@ -1,12 +1,12 @@
 class Order < ApplicationRecord
-  belongs_to :customer
+  belongs_to :user
   has_many :order_plants
 
-  validates :gst_tax, :hst_tax, :pst_tax, :total, presence: true
+  validates :gst_tax, :hst_tax, :pst_tax, :total, :customer_id, presence: true
   validates :gst_tax, :hst_tax, :pst_tax, :total, numericality: { greater_than_or_equal_to: 0}
 
   def self.ransackable_associations(auth_object = nil)
-    ["customer", "order_plants"]
+    ["user", "order_plants"]
   end
 
   def self.ransackable_attributes(auth_object = nil)

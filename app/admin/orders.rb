@@ -22,7 +22,7 @@ ActiveAdmin.register Order do
       f.input :gst_tax
       f.input :hst_tax
       f.input :pst_tax
-      f.input :customer_id, :as => :select, :collection => Customer.pluck(Arel.sql("CONCAT(`first_name`, ' ', `last_name`)"), :id)
+      f.input :customer_id, :as => :select, :collection => User.pluck(Arel.sql("CONCAT(`firstname`, ' ', `lastname`)"), :id)
     end
     f.actions
   end
