@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  belongs_to :tax_rate
+  belongs_to :tax_rate, foreign_key: :province_id
   has_many :orders
 
   validates :firstname,:lastname, :province_id, presence: true

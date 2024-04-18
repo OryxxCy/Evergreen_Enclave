@@ -19,10 +19,13 @@
   </div>
 
   <div class="field">
-    <%= f.label :province, class: "label" %>
-    <div class="control">
-      <%= f.select :province_id, options_for_select(TaxRate.all.map { |rate| [rate.province, rate.id] }) %>
-    </div>
+    <%= f.label :province_id %><br />
+    <%= f.select :province_id, options_for_select(TaxRate.all.map { |rate| [rate.province, rate.id] }) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
   <div class="field">
