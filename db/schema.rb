@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_17_235123) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_18_040825) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -90,12 +90,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_235123) do
   create_table "orders", force: :cascade do |t|
     t.decimal "total"
     t.decimal "gst_tax"
-    t.integer "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "hst_tax"
     t.decimal "pst_tax"
-    t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "plant_types", force: :cascade do |t|
@@ -147,6 +147,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_17_235123) do
   add_foreign_key "customers", "tax_rates"
   add_foreign_key "order_plants", "orders"
   add_foreign_key "order_plants", "plants"
-  add_foreign_key "orders", "customers"
+  add_foreign_key "orders", "users"
   add_foreign_key "plants", "plant_types"
 end

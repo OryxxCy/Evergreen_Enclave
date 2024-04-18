@@ -5,7 +5,7 @@ ActiveAdmin.register Order do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :total, :gst_tax, :customer_id, :hst_tax, :pst_tax
+  permit_params :total, :gst_tax, :user_id, :hst_tax, :pst_tax
   #
   # or
   #
@@ -22,7 +22,7 @@ ActiveAdmin.register Order do
       f.input :gst_tax
       f.input :hst_tax
       f.input :pst_tax
-      f.input :customer_id, :as => :select, :collection => User.pluck(Arel.sql("CONCAT(`firstname`, ' ', `lastname`)"), :id)
+      f.input :user_id, :as => :select, :collection => User.pluck(Arel.sql("CONCAT(`firstname`, ' ', `lastname`)"), :id)
     end
     f.actions
   end

@@ -40,17 +40,7 @@ class CartController < ApplicationController
   end
 
   def invoice
-    email = params[:email] unless params[:email].empty?
-    address = params[:address] unless params[:address].empty?
-    tax_rate = params[:province].to_i
-
-    customer = Customer.create(
-      first_name: params[:first_name],
-      last_name: params[:last_name],
-      email: email || "Not provided",
-      address: address || "Not provided",
-      tax_rate_id: tax_rate
-    )
+    customer = User.find_by(id: current_user.id)
 
     @cart_items_with_quantity = session[:shopping_cart]
 
@@ -86,6 +76,6 @@ class CartController < ApplicationController
     order.save
 
     session[:shopping_cart] = {}
-    redirect_to cart_index_path
+    redirect_to order_path(order.id)
   end
 end

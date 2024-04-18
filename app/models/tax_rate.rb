@@ -1,7 +1,7 @@
 class TaxRate < ApplicationRecord
   has_many :users
 
-  validates :province, presence: true
+  validates :province,:pst,:gst,:hst, presence: true
   validates :province, uniqueness: true
   validates :pst,:gst,:hst, numericality: { greater_than_or_equal_to: 0}
 

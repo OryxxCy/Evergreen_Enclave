@@ -56,7 +56,9 @@
                 Orders
               </a>
               <%= link_to "Profile", edit_user_registration_path , class: "navbar-item" %>
-              <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "navbar-item" %>
+              <%= form_tag destroy_user_session_path, method: :delete do %>
+                <%= submit_tag "Log Out", class: "button is-text"  %>
+              <% end %>
             <% else %>
               <%= link_to "Sign Up", new_user_registration_path, class: "navbar-item" %>
               <%= link_to "Log In", new_user_session_path, class: "navbar-item" %>
