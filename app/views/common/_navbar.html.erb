@@ -29,9 +29,6 @@
         <a class="navbar-item" href ="<%= cart_index_path %>">
           Cart
         </a>
-         <a class="navbar-item" href ="<%= orders_path %>">
-          Orders
-        </a>
       </div>
       <div class="navbar-end">
         <%= form_with(url: search_plants_path, method: :get, local: true) do %>
@@ -45,6 +42,27 @@
             <%= submit_tag("Search", class: "button is-primary")%>
           </div>
         <% end %>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            <% if user_signed_in? %>
+              <%= current_user.firstname %>
+            <% else %>
+              Log-in/Sign-up
+            <% end %>
+          </a>
+          <div class="navbar-dropdown">
+            <% if user_signed_in? %>
+              <a class="navbar-item" href ="<%= orders_path %>">
+                Orders
+              </a>
+              <%= link_to "Profile", edit_user_registration_path , class: "navbar-item" %>
+              <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "navbar-item" %>
+            <% else %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "navbar-item" %>
+              <%= link_to "Log In", new_user_session_path, class: "navbar-item" %>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </nav>

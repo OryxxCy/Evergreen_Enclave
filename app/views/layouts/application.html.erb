@@ -14,11 +14,6 @@
   <body>
     <div class="container">
       <%= render partial: 'common/navbar'%>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      <%= form_tag destroy_user_session_path, method: :delete do %>
-        <%= submit_tag "Log Out" %>
-      <% end %>
       <%= yield %>
     </div>
   </body>
