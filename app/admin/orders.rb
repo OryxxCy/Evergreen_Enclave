@@ -15,6 +15,29 @@ ActiveAdmin.register Order do
   #   permitted
   # end
 
+  index do
+    selectable_column
+    id_column
+    column :total
+    column :gst_tax
+    column :hst_tax
+    column :pst_tax
+    column :user do |order|
+       "#{order.user.firstname} #{order.user.lastname}"
+    end
+    column :created_at
+    column :updated_at
+    actions
+  end
+
+  filter :user, as: :select, collection: -> { User.pluck(Arel.sql("CONCAT(`firstname`, ' ', `lastname`)"), :id) }
+  filter :total
+  filter :gst_tax
+  filter :hst_tax
+  filter :pst_tax
+  filter :created_at
+  filter :updated_at
+
   form do |f|
     f.semantic_errors
     f.inputs do

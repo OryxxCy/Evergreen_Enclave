@@ -22,7 +22,9 @@ ActiveAdmin.register User do
     column :firstname
     column :lastname
     column :address
-    column :province_id
+    column :province_id do |user|
+      "#{user.tax_rate.province}"
+    end
     actions
   end
 
