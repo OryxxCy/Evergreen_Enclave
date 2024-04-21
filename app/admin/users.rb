@@ -36,8 +36,6 @@ ActiveAdmin.register User do
       f.input :address
       f.input :province_id, :as => :select, :collection => TaxRate.pluck(:province, :id)
       f.input :email
-      f.input :password
-      f.input :password_confirmation
     end
     f.actions
   end
