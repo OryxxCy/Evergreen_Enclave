@@ -33,7 +33,7 @@ class CheckoutController < ApplicationController
       line_items << {
         quantity: quantity,
         price_data: {
-          unit_amount: product.price,
+          unit_amount: (product.price * 100).to_i,
           currency: "cad",
           product_data: {
             name: product.name,
@@ -46,7 +46,7 @@ class CheckoutController < ApplicationController
       quantity: 1,
       price_data: {
         currency: "cad",
-        unit_amount: gst_total,
+        unit_amount: (gst_total * 100).to_i,
         product_data: {
           name: "GST",
           description: "Goods and Services Tax",
@@ -58,7 +58,7 @@ class CheckoutController < ApplicationController
       quantity: 1,
       price_data: {
         currency: "cad",
-        unit_amount: pst_total,
+        unit_amount: (pst_total * 100).to_i,
         product_data: {
           name: "PST",
           description: "Provincial Sales Tax",
@@ -70,7 +70,7 @@ class CheckoutController < ApplicationController
       quantity: 1,
       price_data: {
         currency: "cad",
-        unit_amount: hst_total,
+        unit_amount: (hst_total * 100).to_i,
         product_data: {
           name: "HST",
           description: " Harmonized Sales Tax",
@@ -84,12 +84,9 @@ class CheckoutController < ApplicationController
     order.hst_tax = hst_total
     order.save
 
-
-
     session[:shopping_cart] = {}
 
     @session = Stripe::Checkout::Session.create(
-      #went to stripe API, looked up sessions, figured it all out..
       payment_method_types: ["card"],
       success_url: checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: checkout_cancel_url,
@@ -102,8 +99,8 @@ class CheckoutController < ApplicationController
 
   def success
     # WE TAKEN YOUR MONEY
-    @session = Stripe::Checkout::Session.retrieve(params[:session_id])
-    @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
+    # @session = Stripe::Checkout::Session.retrieve(params[:session_id])
+    # @payment_intent = Stripe::PaymentIntent.retrieve(@session.payment_intent)
   end
 
   def cancel
