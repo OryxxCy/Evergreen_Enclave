@@ -78,3 +78,4 @@ gem 'draper'
 gem 'pundit'
 
 gem 'sassc'
+gem 'stripe'
