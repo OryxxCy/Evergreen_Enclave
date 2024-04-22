@@ -41,4 +41,5 @@
   <%= hidden_field_tag(:products, @cart_items_with_quantity) %>
   <%= submit_tag "Purchase", class: "button is-primary" %>
 <% end %>
+<%= button_to "Purchase", invoice_cart_index_path, class: "button is-primary" %>
 <%end%>

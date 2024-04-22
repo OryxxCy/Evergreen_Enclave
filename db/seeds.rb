@@ -1,6 +1,7 @@
 require 'json'
 require 'open-uri'
 
+OrderStatus.destroy_all
 TaxRate.destroy_all
 Plant.destroy_all
 PlantType.destroy_all
@@ -8,6 +9,10 @@ AdminUser.destroy_all
 User.destroy_all
 Order.destroy_all
 OrderPlant.destroy_all
+
+OrderStatus.create(status: "Unpaid")
+OrderStatus.create(status: "Paid")
+OrderStatus.create(status: "Shipped")
 
 tax_rates_data = [
   { province: "Alberta", pst: 0, gst: 5, hst: 0 },

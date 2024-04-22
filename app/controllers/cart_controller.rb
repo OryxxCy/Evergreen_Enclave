@@ -76,6 +76,6 @@ class CartController < ApplicationController
     order.save
 
     session[:shopping_cart] = {}
-    redirect_to order_path(order.id)
+    redirect_to checkout_create_path(order_id: order.id)
   end
 end
