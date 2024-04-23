@@ -5,7 +5,7 @@ ActiveAdmin.register Order do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :total, :gst_tax, :user_id, :hst_tax, :pst_tax
+  permit_params :total, :gst_tax, :user_id, :hst_tax, :pst_tax, :order_status_id, :payment_id
   #
   # or
   #
@@ -25,6 +25,10 @@ ActiveAdmin.register Order do
     column :user do |order|
        "#{order.user.firstname} #{order.user.lastname}"
     end
+    column :order_status_id do |order|
+      order.order_status.status
+    end
+    column :payment_id
     column :created_at
     column :updated_at
     actions
@@ -35,6 +39,8 @@ ActiveAdmin.register Order do
   filter :gst_tax
   filter :hst_tax
   filter :pst_tax
+  filter :order_status_id
+  filter :payment_id
   filter :created_at
   filter :updated_at
 
@@ -46,6 +52,8 @@ ActiveAdmin.register Order do
       f.input :hst_tax
       f.input :pst_tax
       f.input :user_id, :as => :select, :collection => User.pluck(Arel.sql("CONCAT(`firstname`, ' ', `lastname`)"), :id)
+      f.input :order_status_id,:as => :select, :collection => OrderStatus.pluck(:status, :id)
+      f.input :payment_id
     end
     f.actions
   end

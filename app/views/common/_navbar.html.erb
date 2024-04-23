@@ -1,4 +1,4 @@
-<header class="mt-3 mb-3">
+<header class="mb-3">
   <div class="box">
   <nav class="navbar" aria-label="main navigation">
     <div class="navbar-brand">
@@ -24,11 +24,20 @@
                 </li>
               </ul>
             <% end %>
+            <%= link_to "Recently added", plants_path(status: "new") %>
+            <%= link_to "Recently updated", plants_path(status: "update") %>
           </div>
         </div>
-        <a class="navbar-item" href ="<%= cart_index_path %>">
-          Cart
-        </a>
+        <div class="navbar-item" >
+          <a class="button is-primary is-outlined" href ="<%= cart_index_path %>">
+            <span class="icon-text">
+              <span class="icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </span>
+              <span><%= session[:shopping_cart].count %></span>
+            </span>
+          </a>
+        </div>
       </div>
       <div class="navbar-end">
         <%= form_with(url: search_plants_path, method: :get, local: true) do %>
@@ -45,7 +54,12 @@
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <% if user_signed_in? %>
-              <%= current_user.firstname %>
+              <span class="icon-text">
+                <span class="icon">
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                <span><%= current_user.firstname %></span>
+              </span>
             <% else %>
               Log-in/Sign-up
             <% end %>

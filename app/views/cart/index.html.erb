@@ -1,6 +1,6 @@
 <%if @cart_items_with_quantity.empty?%>
-  <h1 class="title is-4">
-    Theres no Item in the cart.
+  <h1 class="title has-text-centered has-text-grey">
+    There's no Item in the cart.
   </h1>
 <%else%>
 <% @cart_items_with_quantity.each do |plant, quantity| %>
@@ -37,5 +37,9 @@
     </ul>
   </div>
 <% end %>
-<%= button_to "Purchase", invoice_cart_index_path, class: "button is-primary" %>
+<% if current_user %>
+  <%= button_to "Purchase", invoice_cart_index_path, data: { turbo: false }, class: "button is-primary" %>
+<% else %>
+  <%= link_to "Sign Up to Purchase", new_user_registration_path, class: "button is-primary" %>
+<% end %>
 <%end%>

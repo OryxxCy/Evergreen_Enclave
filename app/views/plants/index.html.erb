@@ -1,5 +1,15 @@
 <section class="section">
-  <h1 class="title has-text-centered">Evergreen Enclave Plants</h1>
+  <% if @status.nil? %>
+    <h1 class="title has-text-centered">Evergreen Enclave Plants</h1>
+  <% else %>
+    <% if @plants.empty? %>
+      <h1 class="title has-text-centered">No <%= @status %> Products</h1>
+    <% else %>
+      <h1 class="title is-1">
+        <%= @status %> Products
+      </h1>
+    <% end %>
+  <% end %>
   <ul class="columns is-multiline">
     <% @plants.each do |plant| %>
       <li class="column is-one-third">
@@ -15,5 +25,7 @@
       </li>
     <% end %>
   </ul>
-  <%= paginate @plants%>
+  <% if @plants.count >= 12%>
+    <%= paginate @plants%>
+  <% end%>
 </section>

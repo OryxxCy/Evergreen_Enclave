@@ -1,10 +1,20 @@
 class PlantsController < ApplicationController
   def index
-    @plants = Plant.page(params[:page]).per(12)
+    if params[:status]== "new"
+      @plants = Plant.where("created_at >= ?", 3.days.ago)
+      @status = "Recently Added"
+    elsif params[:status]== "update"
+      @plants = Plant.where("updated_at >= ? AND created_at <= ?", 3.days.ago, 3.days.ago)
+      @status = "Recently Updated"
+    else
+      @plants = Plant.page(params[:page]).per(12)
+    end
   end
 
   def show
     @plant = Plant.find(params[:id])
+    @type = PlantType.find(@plant.plant_type.id)
+    @plants = @type.plants.where.not(id: @plant.id).limit(8)
     if session[:shopping_cart][@plant.id.to_s].present?
       @plant_current_stock = @plant.stock - session[:shopping_cart][@plant.id.to_s].to_i
       @plant_in_cart = session[:shopping_cart][@plant.id.to_s].to_i
