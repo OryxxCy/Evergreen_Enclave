@@ -14,6 +14,7 @@ class CartController < ApplicationController
       end
     else
       session[:shopping_cart][product_id] = quantity
+      redirect_to plant_path(product_id)
     end
 
     plant = Plant.find(product_id)

@@ -5,6 +5,8 @@ class PlantsController < ApplicationController
 
   def show
     @plant = Plant.find(params[:id])
+    @type = PlantType.find(@plant.plant_type.id)
+    @plants = @type.plants.where.not(id: @plant.id).limit(8)
     if session[:shopping_cart][@plant.id.to_s].present?
       @plant_current_stock = @plant.stock - session[:shopping_cart][@plant.id.to_s].to_i
       @plant_in_cart = session[:shopping_cart][@plant.id.to_s].to_i
