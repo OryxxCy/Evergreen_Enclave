@@ -1,7 +1,7 @@
 <section class="section">
   <div class="box">
     <h1 class="title has-text-centered mb-5">
-      Invoice #<%= @order.id %>
+      Order #<%= @order.id %>
     </h1>
     <h2 class="subtitle is-3 has-text-centered mb-4">
       Status: <%= @order.order_status.status %>
@@ -35,6 +35,10 @@
     <p><strong>HST: </strong><%= number_to_currency(@order.hst_tax) %></p>
     <% total_cost = @order.total + @order.gst_tax + @order.pst_tax + @order.hst_tax %>
     <p><strong>Total + Tax: </strong><%= number_to_currency(total_cost) %></p>
-
+    <% if @order.order_status_id == 1 %>
+      <div class="column is-full has-text-centered">
+        <%= link_to "Purchase", checkout_create_path + "?order_id=#{@order.id}", class: "button is-primary purchase-button" %>
+      </div>
+    <% end %>
   </div>
 </section>

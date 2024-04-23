@@ -7,11 +7,11 @@
       </h1>
     </div>
   <% else %>
-    <h1 class="title has-text-centered">Invoices</h1>
+    <h1 class="title has-text-centered">Order History</h1>
     <table class="table is-fullwidth">
       <thead>
         <tr>
-          <th>Invoice#</th>
+          <th>Order#</th>
           <th>Ordered Date</th>
           <th>Total Cost</th>
           <th></th>
@@ -21,7 +21,7 @@
         <% @orders.each do |order| %>
           <% total_cost = order.total + order.gst_tax + order.pst_tax + order.hst_tax %>
           <tr>
-            <td><%= link_to "Invoice ##{order.id}", order %></td>
+            <td><%= link_to "Order ##{order.id}", order %></td>
             <td><%= order.created_at.strftime("%B %d, %Y") %></td>
             <td><%= number_to_currency(total_cost) %></td>
             <td>

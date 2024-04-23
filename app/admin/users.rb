@@ -5,7 +5,7 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :email, :password, :password_confirmation, :remember_created_at, :firstname, :lastname, :address, :province_id
+  permit_params :email, :password, :password_confirmation, :remember_created_at, :firstname, :lastname, :address, :province_id, :postal_code
   #
   # or
   #
@@ -22,6 +22,7 @@ ActiveAdmin.register User do
     column :firstname
     column :lastname
     column :address
+    column :postal_code
     column :province_id do |user|
       "#{user.tax_rate.province}"
     end
@@ -34,6 +35,7 @@ ActiveAdmin.register User do
       f.input :firstname
       f.input :lastname
       f.input :address
+      f.input :postal_code
       f.input :province_id, :as => :select, :collection => TaxRate.pluck(:province, :id)
       f.input :email
     end
