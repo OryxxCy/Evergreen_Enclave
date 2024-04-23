@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_22_214905) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_215329) do
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -102,6 +102,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_214905) do
     t.decimal "pst_tax"
     t.integer "user_id", null: false
     t.string "payment_id"
+    t.integer "order_status_id"
+    t.index ["order_status_id"], name: "index_orders_on_order_status_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -154,6 +156,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_22_214905) do
   add_foreign_key "customers", "tax_rates"
   add_foreign_key "order_plants", "orders"
   add_foreign_key "order_plants", "plants"
+  add_foreign_key "orders", "order_statuses"
   add_foreign_key "orders", "users"
   add_foreign_key "plants", "plant_types"
 end

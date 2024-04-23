@@ -14,6 +14,7 @@
           <th>Invoice#</th>
           <th>Ordered Date</th>
           <th>Total Cost</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,13 @@
             <td><%= link_to "Invoice ##{order.id}", order %></td>
             <td><%= order.created_at.strftime("%B %d, %Y") %></td>
             <td><%= number_to_currency(total_cost) %></td>
+            <td>
+              <% if order.order_status_id == 1 %>
+                <%= link_to "Pay now", checkout_create_path + "?order_id=#{order.id}"%>
+              <% else %>
+                <%= order.order_status.status %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

@@ -73,9 +73,10 @@ class CartController < ApplicationController
     order.gst_tax = @gst_total
     order.pst_tax = @pst_total
     order.hst_tax = @hst_total
+    order.order_status_id = 1
     order.save
 
     session[:shopping_cart] = {}
-    redirect_to checkout_create_path(order_id: order.id)
+    redirect_to checkout_create_path + "?order_id=#{order.id}"
   end
 end
