@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :orders
 
   validates :firstname, :lastname, :address, :postal_code, :province_id, presence: true
-  validates :postal_code, format: { with: /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/, message: "It must be a valid Canadian postal code." }
+  validates :postal_code, format: { with: /\A[A-Za-z]\d[A-Za-z] \d[A-Za-z]\d\z/, message: "It must be a valid Canadian postal code. Example: A1A 1A1" }
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

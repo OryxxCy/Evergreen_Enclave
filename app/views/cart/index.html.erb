@@ -37,5 +37,9 @@
     </ul>
   </div>
 <% end %>
-<%= button_to "Purchase", invoice_cart_index_path, data: { turbo: false }, class: "button is-primary" %>
+<% if current_user %>
+  <%= button_to "Purchase", invoice_cart_index_path, data: { turbo: false }, class: "button is-primary" %>
+<% else %>
+  <%= link_to "Sign Up to Purchase", new_user_registration_path, class: "button is-primary" %>
+<% end %>
 <%end%>

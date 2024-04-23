@@ -1,6 +1,14 @@
 class PlantsController < ApplicationController
   def index
-    @plants = Plant.page(params[:page]).per(12)
+    if params[:status]== "new"
+      @plants = Plant.where("created_at >= ?", 3.days.ago)
+      @status = "Recently Added"
+    elsif params[:status]== "update"
+      @plants = Plant.where("updated_at >= ? AND created_at <= ?", 3.days.ago, 3.days.ago)
+      @status = "Recently Updated"
+    else
+      @plants = Plant.page(params[:page]).per(12)
+    end
   end
 
   def show

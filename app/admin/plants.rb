@@ -5,7 +5,7 @@ ActiveAdmin.register Plant do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :name, :description, :price, :plant_type_id, :other_name, :image
+  permit_params :name, :description, :price, :plant_type_id, :other_name, :image, :stock
   remove_filter :image_attachment, :image_blob
   #
   # or
