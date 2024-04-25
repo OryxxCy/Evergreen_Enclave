@@ -12,3 +12,6 @@
  *
  *= require_self
  */
+ .container {
+  min-height: 82vh;
+}
