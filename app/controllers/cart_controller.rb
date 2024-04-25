@@ -9,7 +9,7 @@ class CartController < ApplicationController
         redirect_to cart_index_path
       else
         session[:shopping_cart][product_id] += quantity
-        # flash[:notice] = "#{quantity} #{plant.name} added to cart."
+        flash[:notice] = "#{quantity} #{plant.name} added to cart."
         redirect_to plant_path(product_id)
       end
     else
@@ -37,6 +37,10 @@ class CartController < ApplicationController
     @cart_products.each do |product|
       quantity = cart_items[product.id.to_s]
       @cart_items_with_quantity[product] = quantity
+    end
+    @subtotal = 0
+    @cart_items_with_quantity.each do |plant, quantity|
+     @subtotal += plant.price * quantity
     end
   end
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang = "en">
   <head>
-    <title>EvergreenEnclave</title>
+    <link rel="icon" type="image/png" href="/assets/leaf.png">
+    <title>Evergreen Enclave</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -14,7 +15,19 @@
   <body>
     <div class="container">
       <%= render partial: 'common/navbar'%>
+      <% if flash[:notice].present? %>
+        <div class="notification is-info">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
+    <footer class="footer">
+      <div class="has-text-centered">
+        <p>
+          <strong>Evergreen Enclave</strong> &copy; <%= Time.now.year %>
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
