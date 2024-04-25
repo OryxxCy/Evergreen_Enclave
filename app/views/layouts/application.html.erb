@@ -13,8 +13,8 @@
     <script src="https://kit.fontawesome.com/2d1b63fb63.js" crossorigin="anonymous"></script>
   </head>
   <body>
+    <%= render partial: 'common/navbar'%>
     <div class="container">
-      <%= render partial: 'common/navbar'%>
       <% if flash[:notice].present? %>
         <div class="notification is-info">
           <%= flash[:notice] %>

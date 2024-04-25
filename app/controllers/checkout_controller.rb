@@ -1,5 +1,4 @@
 class CheckoutController < ApplicationController
-
   def create
     order = Order.find_by(id: params[:order_id])
     line_items = []
@@ -17,41 +16,47 @@ class CheckoutController < ApplicationController
       }
     end
 
-    line_items << {
-      quantity: 1,
-      price_data: {
-        currency: "cad",
-        unit_amount: (order.gst_tax * 100).to_i,
-        product_data: {
-          name: "GST",
-          description: "Goods and Services Tax",
+    if order.gst_tax > 0
+      line_items << {
+        quantity: 1,
+        price_data: {
+          currency: "cad",
+          unit_amount: (order.gst_tax * 100).to_i,
+          product_data: {
+            name: "GST",
+            description: "Goods and Services Tax",
           }
         }
-    }
+      }
+    end
 
-    line_items << {
-      quantity: 1,
-      price_data: {
-        currency: "cad",
-        unit_amount: (order.pst_tax * 100).to_i,
-        product_data: {
-          name: "PST",
-          description: "Provincial Sales Tax",
+    if order.pst_tax > 0
+      line_items << {
+        quantity: 1,
+        price_data: {
+          currency: "cad",
+          unit_amount: (order.pst_tax * 100).to_i,
+          product_data: {
+            name: "PST",
+            description: "Provincial Sales Tax",
           }
         }
-    }
+      }
+    end
 
-    line_items << {
-      quantity: 1,
-      price_data: {
-        currency: "cad",
-        unit_amount: (order.hst_tax * 100).to_i,
-        product_data: {
-          name: "HST",
-          description: " Harmonized Sales Tax",
+    if order.hst_tax > 0
+      line_items << {
+        quantity: 1,
+        price_data: {
+          currency: "cad",
+          unit_amount: (order.hst_tax * 100).to_i,
+          product_data: {
+            name: "HST",
+            description: "Harmonized Sales Tax",
           }
         }
-    }
+      }
+    end
 
     @session = Stripe::Checkout::Session.create(
       payment_method_types: ["card"],
@@ -60,7 +65,6 @@ class CheckoutController < ApplicationController
       mode: "payment",
       line_items: line_items
     )
-
     redirect_to @session.url, allow_other_host: true
   end
 
@@ -71,6 +75,7 @@ class CheckoutController < ApplicationController
     order.order_status_id = 2
     order.payment_id = @payment_intent.id
     order.save
+    flash[:notice] = "Thank you for your purchase!"
     redirect_to order_path(order.id)
   end
 
